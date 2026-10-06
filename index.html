@@ -10,35 +10,40 @@
         rel="stylesheet"
     >
 </head>
-
 <body>
-    <!-- Cabeçalho -->
+
+    <!-- ==============================================Cabeçalho -->
     <header class="bg-primary text-white py-4">
         <div class="container">
-            <h1 class="mb-1">Minha To-Do List</h1>
+            <h1 class="mb-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-spreadsheet-fill" viewBox="0 0 20 20">
+  <path d="M12 0H4a2 2 0 0 0-2 2v4h12V2a2 2 0 0 0-2-2m2 7h-4v2h4zm0 3h-4v2h4zm0 3h-4v3h2a2 2 0 0 0 2-2zm-5 3v-3H6v3zm-4 0v-3H2v1a2 2 0 0 0 2 2zm-3-4h3v-2H2zm0-3h3V7H2zm4 0V7h3v2zm0 1h3v2H6z"/>
+                </svg>
+                    My Daily Workflow
+            </h1>
             <p class="mb-0">
-                Organize suas tarefas do dia
+                Organize suas rotina diária com a To-do List!
             </p>
         </div>
     </header>
 
-    <!-- Conteúdo principal -->
+    <!-- ============================================= Conteúdo principal -->
     <main class="container my-5">
         <!-- Seção de cadastro -->
         <section class="mb-5">
-            <h2 class="mb-4">Adicionar tarefa</h2>
+            <h2 class="mb-4">Nova Tarefa:</h2>
             <form id="form-tarefa">
                 <div class="input-group">
                     <label
                         for="tarefa"
                         class="visually-hidden">
-                        Nome da tarefa
+                        Informar nova tarefa
                     </label>
                     <input
                         type="text"
                         id="tarefa"
                         class="form-control"
-                        placeholder="Digite uma tarefa..."
+                        placeholder="Nova tarefa..."
                         autocomplete="off">
                     <button
                         type="submit"
@@ -49,11 +54,11 @@
             </form>
         </section>
 
-        <!-- Seção da lista -->
+        <!-- ============================================= Seção da lista -->
         <section>
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="mb-0">
-                    Minhas tarefas
+                    Lista de Atividades:
                 </h2>
                 <span
                     id="contador"
@@ -61,7 +66,8 @@
                     0 tarefas
                 </span>
             </div>
-            <!-- Tabela de tarefas -->
+
+            <!-- ======================================= Tabela de tarefas -->
             <div class="table-responsive">
                 <table class="table table-striped table-hover align-middle">
                     <thead class="table-dark">
@@ -84,7 +90,7 @@
 
     </main>
 
-    <!-- Rodapé -->
+    <!--==================================================== Rodapé -->
     <footer class="bg-light text-center py-4">
         <p class="mb-0 text-muted">
             To-Do List - JavaScript + DOM + LocalStorage
@@ -94,7 +100,7 @@
         </p>
     </footer>
 
-    <!-- JavaScript -->
+    <!--================================================= JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
