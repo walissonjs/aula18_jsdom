@@ -48,14 +48,15 @@ function adicionarTarefa(event) {
 
     // Salva no localStorage (transforma o array em texto JSON) - - função criada na linha 64
     salvarTarefa();
+    
+    // Atualiza a tela (mostra a nova tarefa)
+    renderizarTarefas();
 
     // Limpa o campo de input
     inputTarefa.value = "";
     // Coloca o cursor de volta no campo de input - - Local onde vai inserir nova tarefa
     inputTarefa.focus();
 
-    // Atualiza a tela (mostra a nova tarefa)
-    renderizarTarefas();
 }
 
 // =====================================================================
@@ -73,70 +74,106 @@ function renderizarTarefas() {
     // Limpa o conteúdo atual da tabela (evita duplicar)
     listaTarefas.innerHTML = "";
 
-    // ===== ESTRUTURA DE REPETIÇÃO (LAÇO) =====
-    // Percorre todas as tarefas do array
-    for (let i = 0; i < tarefas.length; i++) {
-        const tarefa = tarefas[i];
+    tarefas.forEach(function (tarefa, indice) {
+        const linha = document.createElement("tr");
+        const colunaNumero = document.createElement("td"); // Inserir a primeira coluna (número da tarefa)
+            colunaNumero.textContent = indice + 1; // número da tarefa (1, 2, 3...)
 
-        // Cria uma nova linha da tabela (<tr>)
-        const tr = document.createElement("tr");
+        const colunaTexto = document.createElement("td");
+            colunaTexto.textContent = tarefa.texto; // texto da tarefa
+                if (tarefa.concluido) {
+                    "colunaTexto.classList.add"(
+                        "text-decoration-line-throught",
+                        "text-muted"
+                    );
+                }
 
-        // Cria as células (<td>)
-        const tdNumero = document.createElement("td");
-        const tdTexto = document.createElement("td");
-        const tdStatus = document.createElement("td");
-        const tdAcoes = document.createElement("td");
+        const colunaStatus = document.createElement("td"); // APLICAR O STATUS de Tarefa: CONCLUÍDA OU PENDENTE
+                if (tarefa.concluido) {
+                    colunaStatus.innerHTML = '<span class="badge text-bg-success"> Concluída </span>';
+                } else {
+                    colunaStatus.innerHTML = '<span class="badge text-bg-warning"> Pendente </span>';
+                }
 
-        // Preenche o conteúdo das células
-        tdNumero.textContent = i + 1;               // número da tarefa (1, 2, 3...)
-        tdTexto.textContent = tarefa.texto;         // texto da tarefa
+        const colunaAcoes = document.createElement("td");
+            colunaAcoes.innerHTML = `
+                <button class="btn btn-success btn-sm me-2" onclick="concluirTarefa(${tarefa.id})">Concluir</button>
+                <button class="btn btn-danger btn-sm" onclick="excluirTarefa(${tarefa.id})">Excluir</button>
+            `; // botões de ação
 
-        // ===== ESTRUTURA DE DECISÃO =====
-        // Mostra o status de forma amigável
-        if (tarefa.concluido === true) {
-            tdStatus.textContent = "✅ Concluída";
-            tdTexto.style.textDecoration = "line-through"; // risca o texto
-            tdTexto.style.color = "#888";
-        } else {
-            tdStatus.textContent = "⏳ Pendente";
-        }
+            linha.appendChild(colunaNumero);
+            linha.appendChild(colunaTexto);
+            linha.appendChild(colunaStatus);
+            linha.appendChild(colunaAcoes);
 
-        // ===== BOTÕES DE AÇÃO =====
-        // Botão Concluir
-        const btnConcluir = document.createElement("button");
-        btnConcluir.textContent = "Concluir";
-        btnConcluir.style.marginRight = "8px";
+            listaTarefas.appendChild(linha); // Renderiza os dados das tarefas inseridas para a região da lista de tarefas
+    });
+    
 
-        // Quando clicar no botão Concluir
-        btnConcluir.addEventListener("click", function () {
-            concluirTarefa(tarefa.id);
-        });
+                                // // ===== ESTRUTURA DE REPETIÇÃO (LAÇO) =====  FEITO POR IA
+                                // // Percorre todas as tarefas do array
+                                // for (let i = 0; i < tarefas.length; i++) {
+                                //     const tarefa = tarefas[i];
 
-        // Botão Excluir
-        const btnExcluir = document.createElement("button");
-        btnExcluir.textContent = "Excluir";
+                                //     // Cria uma nova linha da tabela (<tr>)
+                                //     const tr = document.createElement("tr");
 
-        // Quando clicar no botão Excluir
-        btnExcluir.addEventListener("click", function () {
-            excluirTarefa(tarefa.id);
-        });
+                                //     // Cria as células (<td>)
+                                //     const tdNumero = document.createElement("td");
+                                //     const tdTexto = document.createElement("td");
+                                //     const tdStatus = document.createElement("td");
+                                //     const tdAcoes = document.createElement("td");
 
-        // Coloca os botões dentro da célula de ações
-        tdAcoes.appendChild(btnConcluir);
-        tdAcoes.appendChild(btnExcluir);
+                                //     // Preenche o conteúdo das células
+                                //     tdNumero.textContent = i + 1;               // número da tarefa (1, 2, 3...)
+                                //     tdTexto.textContent = tarefa.texto;         // texto da tarefa
 
-        // Coloca todas as células dentro da linha
-        tr.appendChild(tdNumero);
-        tr.appendChild(tdTexto);
-        tr.appendChild(tdStatus);
-        tr.appendChild(tdAcoes);
+                                //     // ===== ESTRUTURA DE DECISÃO =====
+                                //     // Mostra o status de forma amigável
+                                //     if (tarefa.concluido === true) {
+                                //         tdStatus.textContent = "✅ Concluída";
+                                //         tdTexto.style.textDecoration = "line-through"; // risca o texto
+                                //         tdTexto.style.color = "#888";
+                                //     } else {
+                                //         tdStatus.textContent = "⏳ Pendente";
+                                //     }
 
-        // Coloca a linha dentro da tabela
-        listaTarefas.appendChild(tr);
-    }
+                                //     // ===== BOTÕES DE AÇÃO =====
+                                //     // Botão Concluir
+                                //     const btnConcluir = document.createElement("button");
+                                //     btnConcluir.textContent = "Concluir";
+                                //     btnConcluir.style.marginRight = "8px";
 
-    // Atualiza o contador de tarefas
-    atualizarContador();
+                                //     // Quando clicar no botão Concluir
+                                //     btnConcluir.addEventListener("click", function () {
+                                //         concluirTarefa(tarefa.id);
+                                //     });
+
+                                //     // Botão Excluir
+                                //     const btnExcluir = document.createElement("button");
+                                //     btnExcluir.textContent = "Excluir";
+
+                                //     // Quando clicar no botão Excluir
+                                //     btnExcluir.addEventListener("click", function () {
+                                //         excluirTarefa(tarefa.id);
+                                //     });
+
+                                //     // Coloca os botões dentro da célula de ações
+                                //     tdAcoes.appendChild(btnConcluir);
+                                //     tdAcoes.appendChild(btnExcluir);
+
+                                //     // Coloca todas as células dentro da linha
+                                //     tr.appendChild(tdNumero);
+                                //     tr.appendChild(tdTexto);
+                                //     tr.appendChild(tdStatus);
+                                //     tr.appendChild(tdAcoes);
+
+                                //     // Coloca a linha dentro da tabela
+                                //     listaTarefas.appendChild(tr);
+                                // }
+
+                                // // Atualiza o contador de tarefas
+                                // atualizarContador();
 }
 
 // =====================================================================
