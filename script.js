@@ -116,26 +116,26 @@ function renderizarTarefas() {
                 );
                 
                 
-                
+                // ====================================== OUTRA FORMA
                 // colunaAcoes.innerHTML = `
                 //     <button class="btn btn-success btn-sm me-2" onclick="concluirTarefa(${tarefa.id})">Concluir</button>
                 //     <button class="btn btn-danger btn-sm" onclick="excluirTarefa(${tarefa.id})">Excluir</button>
                 // `; // botões de ação
                 
             const btnEditar = document.createElement("button");
-                btnEditar.textContent = tarefa.concluido ? "Salvar" : "Editar"; // expressão ternária (-) ? true : false  >>>>>>   true        false
+                btnEditar.textContent = "Editar";
                 btnEditar.classList.add(
-                "btn",
-                tarefa.concluido ? "btn" : "btn-warning",
-                "btn-sm", // buttom small (botão menor)
-                "me-2" // aplicar margem
-            );
+                    "btn",
+                    "btn-primary", /// aplicar propriedade de cor primária (azul)
+                    "btn-sm", // buttom small (botão menor)
+                    "me-2" // aplicar margem
+                );
                 btnEditar.addEventListener(
-                "click",
-                function() {
-                    alterarStatus(tarefa.id);
-                }
-            );
+                    "click",
+                    function() {
+                        editarTarefa(tarefa.id);
+                    }
+                );
 
         const btnExcluir = document.createElement("button");
 
@@ -162,6 +162,36 @@ function alterarStatus(id) { //parâmetro id, informado na linha 114 - alterarSt
     salvarTarefa();
     renderizarTarefas();
 }
+
+function editarTarefa(id) {
+    const tarefa = tarefas.find(function(tarefa) { // Método array para localizar o id da tarefa que será editada.
+        return tarefa.id === id;
+    });
+
+    do { // Aplicar estrutura de repetição para quando houver erro (digitação em branco) o usuário ser forçado a digitar a informação necessária
+        const novoTexto = prompt("Digite a nova tarefa:", tarefa.texto); // Aplica a nova informação no campo correto e faz o ajuste solicitado
+            if (novoTexto === null) {
+                return;
+            }
+            texto = novoTexto.trim();
+
+            if (texto === "") {
+                alert("A tarefa não pode ficar vazia.");
+            }
+    } while (texto === "");
+
+    tarefa.texto = texto;
+    salvarTarefa();
+    renderizarTarefas();
+
+}
+
+
+
+
+
+
+
                                 // // ===== ESTRUTURA DE REPETIÇÃO (LAÇO) =====  FEITO POR IA
                                 // // Percorre todas as tarefas do array
                                 // for (let i = 0; i < tarefas.length; i++) {
