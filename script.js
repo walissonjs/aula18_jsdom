@@ -137,7 +137,20 @@ function renderizarTarefas() {
                     }
                 );
 
-        const btnExcluir = document.createElement("button");
+            const btnExcluir = document.createElement("button");
+                btnExcluir.textContent = "Excluir";
+                btnExcluir.classList.add(
+                    "btn",
+                    "btn-danger",
+                    "btn-sm",
+                    "me-2"
+                );
+                btnExcluir.addEventListener(
+                    "click",
+                    function() {
+                        excluirTarefa(tarefa.id);
+                    }
+                );
 
         // Incluindo as linhas+colunas a tabela de tarefas
             linha.appendChild(colunaNumero);
@@ -147,12 +160,16 @@ function renderizarTarefas() {
                 colunaAcoes.appendChild(btnConcluir); //Inserir o botão na coluna ações
                 colunaAcoes.appendChild(btnEditar);
                 colunaAcoes.appendChild(btnExcluir);
-            
-            
+                       
 
             listaTarefas.appendChild(linha); // Renderiza os dados das tarefas inseridas para a região da lista de tarefas
     });
-    
+    totalTarefas();
+}
+
+// =====================================================================
+//                       FUNÇÃO: CONCLUIR TAREFA
+// =====================================================================
 function alterarStatus(id) { //parâmetro id, informado na linha 114 - alterarStatus(tarefa,id)
     tarefas.forEach(function (tarefa) {
         if (tarefa.id === id) {
@@ -163,6 +180,9 @@ function alterarStatus(id) { //parâmetro id, informado na linha 114 - alterarSt
     renderizarTarefas();
 }
 
+// =====================================================================
+//                       FUNÇÃO: EDITAR TAREFA
+// =====================================================================
 function editarTarefa(id) {
     const tarefa = tarefas.find(function(tarefa) { // Método array para localizar o id da tarefa que será editada.
         return tarefa.id === id;
@@ -186,9 +206,40 @@ function editarTarefa(id) {
 
 }
 
+// =====================================================================
+//                       FUNÇÃO: EXCLUIR TAREFA
+// =====================================================================
+function excluirTarefa(id) {
+    const confirmar = confirm("Está certo que vai excluir esta tarefa?")
+        if (!confirmar) { // A exclamação aponta o sentido negativo, ou seja, "se o usuário NÃO QUISER CONFIRMAR"... segue o fluxo.
+            return
+        }
+        tarefas = tarefas.filter(function (tarefa){ // Puxa o array completo das tarefas, porém exporta removendo o id selecionado.
+            return tarefa.id !== id;
+        });
+    salvarTarefa();
+    renderizarTarefas();
+}
+
+// =====================================================================
+//                       FUNÇÃO: ATUALIZAR CONTADOR
+// =====================================================================
+function totalTarefas(){
+    const qtdTarefas = tarefas.length;
+        if (qtdTarefas === 0) {
+            contador.textContent = "Não há tarefas";
+        } else {
+            contador.textContent = qtdTarefas + " tarefas"
+        }
+
+}
 
 
 
+// =====================================================================
+//          INICIALIZADOR DA PÁGINA (RECARREGAR DADOS LOCAIS)
+// =====================================================================
+renderizarTarefas();
 
 
 
@@ -256,7 +307,7 @@ function editarTarefa(id) {
 
                                 // // Atualiza o contador de tarefas
                                 // atualizarContador();
-}
+
 
 // =====================================================================
 //                       FUNÇÃO: CONCLUIR TAREFA
@@ -322,4 +373,4 @@ function editarTarefa(id) {
 //                       INICIALIZAÇÃO
 // =====================================================================
 // Assim que a página carrega, já mostra as tarefas que estavam salvas
-renderizarTarefas();
+//renderizarTarefas();
