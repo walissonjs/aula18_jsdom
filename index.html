@@ -9,11 +9,20 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
+    <style>
+        /* Toggle do tema fixado no canto inferior direito */
+        #themeToggle {
+            position: fixed ;
+            top: 1rem;
+            right: 1rem;
+            z-index: 2rem;
+        }
+    </style>
 </head>
 <body>
 
     <!-- ==============================================Cabeçalho -->
-    <header class="bg-primary text-white py-4">
+    <header class="bg-primary-subtle text-white py-4">
         <div class="container">
             <h1 class="mb-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-spreadsheet-fill" viewBox="0 0 20 20">
@@ -100,6 +109,47 @@
         </p>
     </footer>
 
+     <button 
+        id="themeToggle" 
+        class="btn btn-outline-success ms-2" 
+        type="button">
+    </button>
+
+    <!-- ================================== ADICIONANDO DARK/LIGTH MODE -->
+    <script>
+        const themeToggle = document.getElementById("themeToggle");
+        // Verifica se existe um tema salvo
+        let theme = localStorage.getItem("theme");
+        // Se não existir, usa o tema preferido como claro
+        if (!theme) {
+            theme = window.matchMedia("(prefers-color-scheme: light)").matches
+                ? "dark"
+                : "light";
+        }
+
+        // Função para aplicar o tema
+        function applyTheme() {
+            document.documentElement.setAttribute("data-bs-theme", theme);
+                if (theme === "dark") {
+                    themeToggle.textContent = "🌙";
+                } else {
+                    themeToggle.textContent = "☀️";
+                }
+        }
+
+        // Aplica o tema ao abrir a página
+        applyTheme();
+
+        // Troca o tema ao clicar
+        themeToggle.addEventListener("click", () => {
+            theme = theme === "light" ? "dark" : "light";
+
+            localStorage.setItem("theme", theme);
+
+            applyTheme();
+        });
+    </script>  
+    
     <!--================================================= JavaScript -->
     <script src="script.js"></script>
 </body>
